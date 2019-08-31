@@ -1,59 +1,43 @@
 import sys
-import copy
-sys.stdin = open('벽부수고이동하기_input.txt')
+sys.stdin = open('숨바꼭질_input.txt')
 
 
-def BFS(x, y, distance, chance, temp):
-    global result
-    q = []
-    q.append((x, y, distance, chance, temp))
-
-    dx = [0, 0, 1, -1]
-    dy = [1, -1, 0, 0]
-
-    while len(q) != 0:
-        ax, ay, distance, chance, temp = q.pop(0)
-
-        for i in range(4):
-            nx = ax + dx[i]
-            ny = ay + dy[i]
-
-            # 벽처리
-            if nx < 0 or nx >= N or ny < 0 or ny >= M:
-                continue
-            # 길
-            if data[nx][ny] != 0 and chance == 0:
-                continue
-            # chance
-            if data[nx][ny] != 0 and chance == 1:
-                chance = 0
-                temp[nx][ny] = 0
-                visited[nx][ny] = distance+1
-                q.append((nx, ny, distance+1, chance, temp))
-                chance = 1
-            # 탈출
-            if nx == N-1 and ny == M-1:
-                if result > distance+1:
-                    result = distance+1
-            # 이동
-            if data[nx][ny] == 0 and visited[nx][ny] == 0:
-                visited[nx][ny] = distance+1
-                q.append((nx, ny, distance+1, chance))
+def DFS(no, x, cnt, time):
+    global N, K
+    dx = [-1, 1, 2]
+    if no >= 3:
+        time += 1
+        if cnt == 1:
+            if N == K:
+                print(N)
+                print(time)
+            # for i in range(3):
+            #     print(check[i], end=' ')
+            # print()
+        return
+    for i in range(3):
+        if i != 2:
+            N = x + dx[i]
+            check[no] = N
+            DFS(no + 1, N, cnt+1, time)
+            check[no] = 0
+            DFS(no + 1, N, cnt, time)
+        else:
+            N = x * dx[i]
+            check[no] = N
+            DFS(no + 1, N, cnt + 1, time)
+            check[no] = 0
+            DFS(no + 1, N, cnt, time)
+    # check[no] = N
+    # DFS(no+1, N, cnt+1)
+    # check[no] = 0
+    # DFS(no+1, N, cnt)
 
 
 
+N, K = map(int, input().split())
 
-N, M = map(int, input().split())
-data = [list(map(int, input())) for _ in range(N)]
-visited = [[0 for _ in range(M)] for _ in range(N)]
-temp = copy.deepcopy(data)
-# print(data)
-# print(visited)
+dx = [-1, 1, 2]
+check = [0] * 3
 
-result = 987654321
-visited[0][0] = 1
-BFS(0, 0, 1, 1, temp)
-if result == 987654321:
-    print(-1)
-else:
-    print(result)
+DFS(0, N, 0, 0)
