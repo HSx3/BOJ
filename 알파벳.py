@@ -2,9 +2,8 @@ import sys
 sys.stdin = open('알파벳_input.txt')
 
 
-def DFS(x, y, check):
+def backtrack(x, y, check):
     global ans
-
     ans = max(ans, len(check))
 
     dx = [0, 0, 1, -1]
@@ -19,17 +18,11 @@ def DFS(x, y, check):
         if data[nx][ny] in check:
             continue
         if data[nx][ny] not in check:
-            check.append(data[nx][ny])
-            DFS(nx, ny, check)
-            check.pop()
-
+            backtrack(nx, ny, check+data[nx][ny])
 
 R, C = map(int, input().split())
 data = [list(map(str, input())) for _ in range(R)]
-visited = [[0 for _ in range(C)] for _ in range(R)]
+# print(data)
 ans = 0
-check = []
-check.append(data[0][0])
-visited[0][0] = 9
-DFS(0, 0, check)
+backtrack(0, 0, data[0][0])
 print(ans)
