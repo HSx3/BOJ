@@ -21,8 +21,6 @@ def while_BFS(x, y):
 
             if nx < 0 or nx >= N or ny < 0 or ny >= N:
                 continue
-            if while_visited[nx][ny] != 0:
-                continue
             if while_visited[nx][ny] == 0:
                 while_visited[nx][ny] = 999
                 q.append((nx, ny))
@@ -42,11 +40,6 @@ def off(check):
     move = total // country
     for i in check:
         data[i[0]][i[1]] = move
-
-    for i in data:
-        print(*i)
-    print()
-
 
 
 # 인구체크
@@ -98,7 +91,6 @@ while True:
                     check = list(set(check))
                     if len(check) != 0:
                         off(check)
-        print('--------')
         if off_flag == 0:
             count += 1
 print(count)
