@@ -30,7 +30,7 @@ N, M, V = map(int, input().split())
 G = [[0 for _ in range(N+1)] for _ in range(N+1)]
 visited = [0] * (N+1)
 
-for i in range(N+1):
+for i in range(M):
     u, v = map(int, input().split())
     G[u][v] = 1
     G[v][u] = 1
